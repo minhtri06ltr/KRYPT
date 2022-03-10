@@ -8,7 +8,7 @@ import {
 import { GrBitcoin } from "react-icons/gr";
 import { GiCardExchange } from "react-icons/gi";
 import { FaWallet } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const NavbarItem = ({ title, classNameProps, icon }) => {
   return (
@@ -23,21 +23,47 @@ const NavbarItem = ({ title, classNameProps, icon }) => {
     </>
   );
 };
+
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
+  const wrapperRef = useRef(null);
+
+  const useOutsideAlerter = (ref) => {
+    useEffect(() => {
+      /**
+       * Alert if clicked on outside of element
+       */
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setToggleMenu(false);
+        }
+      }
+
+      // Bind the event listener
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        // Unbind the event listener on clean up
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  };
+  useOutsideAlerter(wrapperRef);
+
   return (
-    <nav className="w-full flex md:justify-center justify-between p-4 items-center">
-      <div className="md:flex-[0.5] flex-initial justify-center items-center">
-        <img src={logo} alt="logo" className="w-32 cursor-pointer" />
+    <nav className="w-srceen flex justify-between  sm:py-6 sm:px-20 p-6 items-center">
+      <div className="w-full flex-initial justify-center items-center">
+        <img src={logo} alt="logo" className="sm:w-48 w-36 cursor-pointer" />
       </div>
       <ul className="font-semibold justify-between items-center flex-initial list-none text-white hidden md:flex">
         {["Market", "Exchange", "Tutorial", "Wallet"].map((item, i) => (
           <NavbarItem title={item} key={i} />
         ))}
-        <li className="neon-button font-bold ml-4">Login</li>
+        <li className="rainbow font-bold ml-4 py-2 px-6 rounded-full cursor-pointer">
+          Login
+        </li>
       </ul>
 
-      <div className="flex relative">
+      <div className="flex relative" ref={wrapperRef}>
         <button className="neon-button md:hidden mr-6 font-bold ml-4">
           Login
         </button>
@@ -67,26 +93,42 @@ const Navbar = () => {
               {[
                 {
                   title: "Market",
-                  icon: <GrBitcoin fontSize={28} className="mr-14" />,
+                  icon: (
+                    <GrBitcoin fontSize={28} className="mr-14" color="yellow" />
+                  ),
                 },
                 {
                   title: "Exchange",
-                  icon: <GiCardExchange fontSize={28} className="mr-14" />,
+                  icon: (
+                    <GiCardExchange
+                      fontSize={28}
+                      className="mr-14"
+                      color="greenyellow"
+                    />
+                  ),
                 },
                 {
-                  title: "Tutorial",
-                  icon: <HiAcademicCap fontSize={28} className="mr-14" />,
+                  title: "Tutorials",
+                  icon: (
+                    <HiAcademicCap
+                      fontSize={28}
+                      className="mr-14"
+                      color="gray"
+                    />
+                  ),
                 },
                 {
-                  title: "Wallet",
-                  icon: <FaWallet fontSize={28} className="mr-14" />,
+                  title: "Wallets",
+                  icon: (
+                    <FaWallet fontSize={28} className="mr-14" color="brown" />
+                  ),
                 },
               ].map((item, i) => (
                 <NavbarItem
                   title={item.title}
                   icon={item.icon}
                   key={i}
-                  classNameProps="w-full flex items-center mt-12 "
+                  classNameProps="w-full flex items-center mt-12"
                 />
               ))}
             </ul>
