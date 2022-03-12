@@ -1,8 +1,19 @@
 //SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0; //choose version
 
-contract transactions {
-    uint256 transactionCounter; //variable
+contract Transactions {
+    uint256 transactionCount; //variable
+
+   struct TransferStruct {
+        address sender;
+        address receiver;
+        uint256 amount;
+        string message;
+        uint256 timeStamp;
+        string keyWord;
+    }
+
+    TransferStruct[] transactions;
 
     //each transactions have - transfer
     event transfer(
@@ -14,22 +25,20 @@ contract transactions {
         string keyWord
     );
 
-    struct transferStruct {
-        address sender;
-        address receiver;
-        uint256 amount;
-        string message;
-        uint256 timeStamp;
-        string keyWord;
+ 
+
+    function addToBlockchain(address payable receiver, uint256 amount,string memory message, string memory keyWord ) public {
+        transactionCount++;
+        transactions.push(TransferStruct(msg.sender,receiver,amount,message,block.timestamp,keyWord));
+        //call event to transfer
+        emit transfer(msg.sender,receiver,amount,message,block.timestamp,keyWord);
     }
 
-    transferStruct[] transactions;
-
-    function addToBlockchain() public {}
-
-    function getAllTransaction() public view returns (transferStruct[] memory) {
-        //return transaction
+    function getAllTransaction() public view returns (TransferStruct[] memory) {
+        return transactions;
     }
 
-    function addToBlockchain() public {}
+    function getTransactionCount() public view returns (uint256) {
+        return transactionCount;
+    }
 }
