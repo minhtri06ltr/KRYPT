@@ -42,12 +42,12 @@ const Introduce = ({ connectWallet, currentAccount }) => {
   return (
     <div className="flex justify-center items-center w-full">
       <div className="flex lg:flex-row flex-col  justify-between md:p-20 py-12 px-4">
-        <div className="flex flex-1 items-center flex-col lg:mr-40">
-          <h1 className="text-white  text-7xl text-center text-gradient py-1">
+        <div className="flex flex-1 items-center flex-col lg:mr-20">
+          <h1 className="  text-5xl text-center lg:self-start text-gradient py-1">
             Send Crypto <br />
             across world
           </h1>
-          <p className="font-light text-center text-white mt-5  text-base">
+          <p className="font-light text-center lg:text-left text-white mt-5  text-base">
             Explore the crypto world. Buy and sell cryptocurrencies easily on
             KRYPT
           </p>

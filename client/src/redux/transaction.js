@@ -11,6 +11,7 @@ export const getEthereumContract = () => {
     contractABI,
     signer
   );
+  return transactionContract;
 };
 export const sendTransaction = async (form, currentAccount, setIsLoading) => {
   try {
@@ -22,17 +23,17 @@ export const sendTransaction = async (form, currentAccount, setIsLoading) => {
     const parseAmount = ethers.utils.parseEther(form.amount);
     console.log(ethers.utils.isAddress(form.addressTo));
     console.log(transactionContract);
-    // await ethereum.request({
-    //   method: "eth_sendTransaction",
-    //   params: [
-    //     {
-    //       from: currentAccount,
-    //       to: form.addressTo,
-    //       gas: "0x5208", //2100 Gwei
-    //       value: parseAmount._hex,
-    //     },
-    //   ],
-    // });
+    await ethereum.request({
+      method: "eth_sendTransaction",
+      params: [
+        {
+          from: currentAccount,
+          to: form.addressTo,
+          gas: "0x5208", //2100 Gwei
+          value: parseAmount._hex,
+        },
+      ],
+    });
     //store transaction
     const transactionHash = await transactionContract.addToBlockchain(
       form.addressTo,
