@@ -2,19 +2,43 @@ import Loader from "./Loader";
 import { AiFillPlayCircle } from "react-icons/ai";
 import { SiEthereum } from "react-icons/si";
 import { BsInfoCircle } from "react-icons/bs";
+import { useState } from "react";
+import { sendTransaction } from "../redux/transaction";
 
-const Input = ({ type, name, placeHolder }) => {
+const Input = ({ type, name, placeHolder, handleForm }) => {
   return (
     <input
+      step="0.0001"
       type={type}
+      onChange={handleForm}
       name={name}
+      required
       placeholder={placeHolder}
-      className="mb-4 bg-[#1f2541] text-center rounded-sm border-none text-white p-2 outline-none white-glassmorphism bg-transparent"
+      className="mb-4 blue-glassmorphism text-center rounded-sm border-none text-white p-2 outline-none white-glassmorphism"
     />
   );
 };
-const Introduce = () => {
-  const connectWallet = () => {};
+const Introduce = ({ connectWallet, currentAccount }) => {
+  const [form, setForm] = useState({
+    addressTo: "",
+    amount: "",
+    keyWord: "",
+    message: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const handleForm = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!form.addressTo || !form.amount || !form.message || !form.keyWord) {
+      return alert("Please check input again");
+    }
+    sendTransaction(form, currentAccount, setIsLoading);
+  };
   return (
     <div className="flex justify-center items-center w-full">
       <div className="flex lg:flex-row flex-col  justify-between md:p-20 py-12 px-4">
@@ -27,14 +51,16 @@ const Introduce = () => {
             Explore the crypto world. Buy and sell cryptocurrencies easily on
             KRYPT
           </p>
-          <button
-            type="button"
-            onClick={connectWallet}
-            className="flex px-4 items-center justify-center neon-button my-5 cursor-pointer font-bold text-base p-4 rounded-full"
-          >
-            <AiFillPlayCircle className="mr-2" fontSize={20} />
-            <p className="text-base font-semibold">Connect Wallet</p>
-          </button>
+          {!currentAccount && (
+            <button
+              type="button"
+              onClick={connectWallet}
+              className="flex px-4 items-center justify-center neon-button my-5 cursor-pointer font-bold text-base p-4 rounded-full"
+            >
+              <AiFillPlayCircle className="mr-2" fontSize={20} />
+              <p className="text-base font-semibold">Connect Wallet</p>
+            </button>
+          )}
 
           <div className="grid sm:grid-cols-3 grid-cols-2 border border-solid border-zinc-500 rounded-2xl overflow-hidden text-white mt-40 w-full">
             {[
@@ -69,13 +95,35 @@ const Introduce = () => {
             </div>
             <div className=" p-6 sm:w-96 w-full rounded-xl blue-glassmorphism">
               <div className="border-b flex flex-col mt-2 border-white border-solid">
-                <Input type="text" name="address" placeHolder="Address To" />
-                <Input type="number" name="amount" placeHolder="Amount (ETH)" />
-                <Input type="text" name="keyWord" placeHolder="Keyword (GIF)" />
-                <Input type="text" name="twitter" placeHolder="Twitter (@)" />
-                <Input type="text" name="message" placeHolder="Message" />
+                <Input
+                  handleForm={handleForm}
+                  type="text"
+                  name="addressTo"
+                  placeHolder="Address To"
+                />
+                <Input
+                  handleForm={handleForm}
+                  type="number"
+                  name="amount"
+                  placeHolder="Amount (ETH)"
+                />
+                <Input
+                  handleForm={handleForm}
+                  type="text"
+                  name="keyWord"
+                  placeHolder="Keyword (GIF)"
+                />
+                <Input
+                  handleForm={handleForm}
+                  type="text"
+                  name="message"
+                  placeHolder="Message"
+                />
               </div>
-              <button className="rounded-full w-full p-2 mt-6 text-white border border-solid font-semibold border-[#3d4f7c] hover:bg-[#3d4f7c]">
+              <button
+                onClick={handleSubmit}
+                className="rounded-full w-full p-2 mt-6 text-white border border-solid font-semibold border-[#3d4f7c] hover:bg-[#3d4f7c]"
+              >
                 Send
               </button>
             </div>
