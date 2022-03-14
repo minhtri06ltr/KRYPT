@@ -1,4 +1,4 @@
-import React from "react";
+import logo from "../../images/logo.png";
 
 const Footer = () => {
   return (
@@ -8,7 +8,7 @@ const Footer = () => {
           <div>
             <img
               className="w-32 flex-initial"
-              src="../../images/logo.png"
+              src={logo}
               alt="logo"
             />
           </div>
