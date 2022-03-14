@@ -48,7 +48,7 @@ const Introduce = ({ connectWallet, currentAccount }) => {
             Send Crypto <br />
             across world
           </h1>
-          <p className="font-light text-center lg:text-left text-white mt-5  text-base">
+          <p className="font-light text-center  text-white mt-5  text-base">
             Explore the crypto world. Buy and sell cryptocurrencies easily on
             KRYPT
           </p>
@@ -126,9 +126,15 @@ const Introduce = ({ connectWallet, currentAccount }) => {
               </div>
               <button
                 onClick={handleSubmit}
-                className="rounded-full w-full p-2 mt-6 text-white border border-solid font-semibold border-[#3d4f7c] hover:bg-[#3d4f7c]"
+                className={`rounded-full w-full p-2 mt-6 text-white border border-solid font-semibold border-[#3d4f7c] hover:bg-[#3d4f7c] ${
+                  isLoading && "cursor-not-allowed"
+                }`}
               >
-                Send
+                {!isLoading ? (
+                  "Send"
+                ) : (
+                  <div className="m-auto animate-spin rounded-full border-t h-5 w-5 border border-white border-solid"></div>
+                )}
               </button>
             </div>
           </div>

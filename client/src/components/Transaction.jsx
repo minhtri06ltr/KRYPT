@@ -4,7 +4,7 @@ import useFetch from "../hooks/useFetch";
 const Card = ({
   addressTo,
   addressFrom,
-  timestamp,
+  timeStamp,
   message,
   keyWord,
   amount,
@@ -51,13 +51,13 @@ const Card = ({
           className=" mt-6 w-full h-64 2x:h-96 object-cover rounded-md shadow-lg"
         />
         <div className="bg-black p-3 px-5 w-max rounded-3xl -mt-5 shadow-2xl">
-          <p className="text-[#37c7da] font-bold">{timestamp}</p>
+          <p className="text-[#37c7da] font-bold">{timeStamp}</p>
         </div>
       </div>
     </div>
   );
 };
-const Transaction = ({ currentAccount }) => {
+const Transaction = ({ currentAccount, transactions }) => {
   return (
     <div className="flex gradient-bg-transactions justify-center items-center w-full 2xl:px-20">
       <div className="flex flex-col md:p-12 py-12 px-4">
@@ -73,7 +73,7 @@ const Transaction = ({ currentAccount }) => {
         <div className="flex flex-wrap justify-center items-center mt-10">
           {/*Get lastest => reverse array */}
           {[
-            dummyData
+            transactions
               .reverse()
               .map((transaction, i) => <Card {...transaction} key={i} />),
           ]}

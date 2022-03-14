@@ -4,11 +4,12 @@ import Transaction from "./components/Transaction";
 import Footer from "./components/Footer";
 import Services from "./components/Services";
 import { useState, useEffect } from "react";
+import { getAllTransactions } from "./redux/transaction";
 
 const { ethereum } = window;
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
-
+  const [transactions, setTransactions] = useState([]);
   const isWalletConnected = async () => {
     try {
       if (!ethereum) {
@@ -17,7 +18,7 @@ const App = () => {
       const accounts = await ethereum.request({ method: "eth_accounts" });
       if (accounts.length) {
         setCurrentAccount(accounts[0]); //set everytime render
-        //getAllTransaction
+        getAllTransactions(setTransactions);
       } else {
         console.log("No accounts found");
       }
@@ -28,11 +29,12 @@ const App = () => {
   };
   const connectWallet = async () => {
     try {
-      console.log("hi");
+      if (!ethereum) return alert("Please add metamask extension to continue");
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
       });
       setCurrentAccount(accounts[0]);
+      window.location.reload();
     } catch (error) {
       console.log(error);
       throw new Error("No ethereum object.");
@@ -51,7 +53,10 @@ const App = () => {
         />
       </div>
       <Services />
-      <Transaction currentAccount={currentAccount} />
+      <Transaction
+        transactions={transactions}
+        currentAccount={currentAccount}
+      />
       <Footer />
     </div>
   );
