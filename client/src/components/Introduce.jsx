@@ -4,6 +4,7 @@ import { SiEthereum } from "react-icons/si";
 import { BsInfoCircle } from "react-icons/bs";
 import { useState } from "react";
 import { sendTransaction } from "../redux/transaction";
+import { shortAddress } from "../utils/shortAddress";
 
 const Input = ({ type, name, placeHolder, handleForm }) => {
   return (
@@ -43,7 +44,7 @@ const Introduce = ({ connectWallet, currentAccount }) => {
     <div className="flex justify-center items-center w-full">
       <div className="flex lg:flex-row flex-col  justify-between md:p-20 py-12 px-4">
         <div className="flex flex-1 items-center flex-col lg:mr-20">
-          <h1 className="  text-5xl text-center lg:self-start text-gradient py-1">
+          <h1 className="  text-5xl text-center  text-gradient py-1">
             Send Crypto <br />
             across world
           </h1>
@@ -87,7 +88,10 @@ const Introduce = ({ connectWallet, currentAccount }) => {
                 <div className="rounded-full h-[60px] w-[60px] flex items-center justify-center border-white border-solid border">
                   <SiEthereum fontSize={32} />
                 </div>
-                <span className="font-semibold text-4xl font-cardFont ">
+                <span className="font-semibold text-base mt-8">
+                  {shortAddress(currentAccount)}
+                </span>
+                <span className="font-semibold text-4xl font-cardFont">
                   Ethereum
                 </span>
               </div>

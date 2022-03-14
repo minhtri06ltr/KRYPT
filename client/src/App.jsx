@@ -51,7 +51,7 @@ const App = () => {
         />
       </div>
       <Services />
-      <Transaction />
+      <Transaction currentAccount={currentAccount} />
       <Footer />
     </div>
   );
