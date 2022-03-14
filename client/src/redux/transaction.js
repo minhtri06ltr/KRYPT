@@ -19,7 +19,7 @@ export const getAllTransactions = async (setTransactions) => {
       return alert("Please add metamask extension to continue");
     }
     const transactionContract = getEthereumContract();
-    console.log(transactionContract);
+
     const availableTransaction = await transactionContract.getAllTransaction();
     const structuredTransactions = availableTransaction.map((transaction) => ({
       addressTo: transaction.receiver,
